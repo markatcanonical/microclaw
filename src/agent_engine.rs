@@ -1482,7 +1482,7 @@ fn configured_soul_candidate_paths(
 ) -> Vec<std::path::PathBuf> {
     let configured = std::path::PathBuf::from(path);
     let mut candidates = vec![configured.clone()];
-    if !configured.is_absolute() && configured.parent().is_none() {
+    if !configured.is_absolute() && configured.parent().map_or(true, |p| p.as_os_str().is_empty()) {
         let souls_candidate = std::path::PathBuf::from(souls_dir).join(&configured);
         if souls_candidate != configured {
             candidates.push(souls_candidate);
